@@ -7,6 +7,14 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { Package, ShoppingBag } from "lucide-react"
 import type { Order } from "@/contexts/store-context"
 
@@ -57,104 +65,101 @@ export default function AdminOrdersPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="rounded-lg border p-4">
-                  <div className="mb-3 flex items-start justify-between">
-                    <div>
-                      <p className="font-semibold">Order #{order.id}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(order.createdAt).toLocaleDateString()} at{" "}
-                        {new Date(order.createdAt).toLocaleTimeString()}
-                      </p>
-                      <p className="text-sm text-muted-foreground">User ID: {order.userId}</p>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <Badge variant="outline" className="justify-center">
-                        {order.orderStatus}
-                      </Badge>
-                      <Badge className={getStatusColor(order.deliveryStatus)}>{order.deliveryStatus}</Badge>
-                    </div>
-                  </div>
-
-                  {/* Order Items */}
-                  <div className="mb-3 space-y-1">
-                    <p className="text-sm font-semibold">Items:</p>
-                    {order.items.map((item, idx) => (
-                      <div key={idx} className="flex justify-between text-sm text-muted-foreground">
-                        <span>
-                          {item.productName} {item.selectedSize && `(${item.selectedSize})`} x {item.quantity}
-                        </span>
-                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Order ID</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Contact</TableHead>
+                  <TableHead className="w-[300px]">Order Details</TableHead>
+                  <TableHead>Total & Status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-medium">
+                      #{order.id.slice(-6)}
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {new Date(order.createdAt).toLocaleDateString()}
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Delivery Details */}
-                  <div className="mb-3 rounded bg-muted p-3">
-                    <p className="mb-1 text-sm font-semibold">Delivery Details:</p>
-                    <div className="space-y-1 text-xs text-muted-foreground">
-                      <p>
-                        {order.deliveryDetails.name} • {order.deliveryDetails.phone}
-                      </p>
-                      <p>{order.deliveryDetails.address}</p>
-                      <p>
-                        {order.deliveryDetails.deliveryOption === "home" ? "Home Delivery" : "Store Pickup"} •{" "}
-                        {order.deliveryDetails.paymentMethod.toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Total */}
-                  <div className="mb-3 flex justify-between border-t pt-3 font-bold">
-                    <span>Total:</span>
-                    <span>${order.total.toFixed(2)}</span>
-                  </div>
-
-                  <div className="mb-3 rounded bg-background p-3">
-                    <Label htmlFor={`agent-${order.id}`} className="text-sm">
-                      Delivery Agent Name
-                    </Label>
-                    <Input
-                      id={`agent-${order.id}`}
-                      placeholder="Enter delivery agent name"
-                      value={deliveryAgents[order.id] || ""}
-                      onChange={(e) =>
-                        setDeliveryAgents((prev) => ({
-                          ...prev,
-                          [order.id]: e.target.value,
-                        }))
-                      }
-                      className="mt-1"
-                    />
-                  </div>
-
-                  {/* Delivery Status Update */}
-                  <div className="flex items-center gap-2 rounded bg-background p-2">
-                    <span className="text-sm font-medium">Update Status:</span>
-                    <Select
-                      value={order.deliveryStatus}
-                      onValueChange={(value) => handleStatusChange(order.id, value as Order["deliveryStatus"])}
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="In Process">In Process</SelectItem>
-                        <SelectItem value="Delivered">Delivered</SelectItem>
-                        <SelectItem value="Rejected">Rejected</SelectItem>
-                        <SelectItem value="Not Received">Not Received</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {order.deliveryStatus === "Delivered" && (
-                      <Badge variant="outline" className="text-xs">
-                        Stock Updated & Logged
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">{order.deliveryDetails.name}</div>
+                      <div className="text-xs text-muted-foreground">{order.deliveryDetails.address}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">{order.deliveryDetails.phone}</div>
+                      <div className="text-xs text-muted-foreground uppercase">{order.deliveryDetails.deliveryOption}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1 text-sm">
+                        {order.items.map((item, idx) => (
+                          <div key={idx} className="flex justify-between items-start text-xs border-b border-dashed pb-1 last:border-0 last:pb-0">
+                            <span>
+                              {item.quantity}x {item.productName} {item.selectedSize && `(${item.selectedSize})`}
+                            </span>
+                            <span className="ml-2 font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-2">
+                        <div className="font-bold text-sm">${order.total.toFixed(2)}</div>
+                        <div className="flex flex-col gap-1">
+                          <Badge variant="outline" className="w-fit">
+                            {order.orderStatus}
+                          </Badge>
+                          <Badge className={`w-fit ${getStatusColor(order.deliveryStatus)}`}>
+                            {order.deliveryStatus}
+                          </Badge>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-3 min-w-[200px]">
+                        <div>
+                          <Label htmlFor={`agent-${order.id}`} className="text-xs">
+                            Delivery Agent
+                          </Label>
+                          <Input
+                            id={`agent-${order.id}`}
+                            placeholder="Agent Name"
+                            value={deliveryAgents[order.id] || ""}
+                            onChange={(e) =>
+                              setDeliveryAgents((prev) => ({
+                                ...prev,
+                                [order.id]: e.target.value,
+                              }))
+                            }
+                            className="h-8 text-xs mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-xs mb-1 block">Update Status</Label>
+                          <Select
+                            value={order.deliveryStatus}
+                            onValueChange={(value) => handleStatusChange(order.id, value as Order["deliveryStatus"])}
+                          >
+                            <SelectTrigger className="h-8 text-xs">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="In Process">In Process</SelectItem>
+                              <SelectItem value="Delivered">Delivered</SelectItem>
+                              <SelectItem value="Rejected">Rejected</SelectItem>
+                              <SelectItem value="Not Received">Not Received</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}

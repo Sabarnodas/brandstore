@@ -13,22 +13,42 @@ const generateToken = (id) => {
 // @route   POST /api/auth/login
 // @access  Public
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    console.log('--- Login Request ---');
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+    let { email, password } = req.body;
+
+    // Sanitize input
+    email = email ? email.trim().toLowerCase() : '';
+    password = password ? password.trim() : '';
+
+
 
     try {
         const user = await User.findOne({ email });
+        console.log('User found:', user ? user.email : 'No user found');
 
-        if (user && (await user.matchPassword(password))) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id),
-            });
-        } else {
-            res.status(401).json({ message: 'Invalid email or password' });
+        if (user) {
+            const isMatch = await user.matchPassword(password);
+            console.log('Password match:', isMatch);
+            console.log('Provided password:', password);
+            console.log('Stored hash:', user.password);
+
+            if (isMatch) {
+                res.json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                    token: generateToken(user._id),
+                });
+                return;
+            }
         }
+
+        console.log('Authentication failed');
+        res.status(401).json({ message: 'Invalid email or password' });
+
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });
     }

@@ -32,9 +32,9 @@ router.get('/', protect, async (req, res) => {
     try {
         let orders;
         if (req.user.role === 'admin') {
-            orders = await Order.find({});
+            orders = await Order.find({}).populate('user', 'id name email');
         } else {
-            orders = await Order.find({ user: req.user._id });
+            orders = await Order.find({ user: req.user._id }).populate('user', 'id name email');
         }
         res.json(orders);
     } catch (error) {

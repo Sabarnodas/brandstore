@@ -80,6 +80,7 @@ interface StoreContextType {
   getCartTotal: () => number
   user: User | null
   login: (email: string, password: string) => Promise<boolean>
+  register: (name: string, email: string, password: string) => Promise<boolean>
   logout: () => void
   isAdmin: boolean
   orders: Order[]
@@ -172,8 +173,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
             })),
             total: order.totalPrice,
             deliveryDetails: {
-              name: user.name, // Best effort
-              phone: "Not provided",
+              name: order.shippingAddress?.name || (order.user && order.user.name) || "Unknown User",
+              phone: order.shippingAddress?.phone || "Not provided",
               address: order.shippingAddress?.address || "",
               deliveryOption: "home", // Default
               paymentMethod: order.paymentMethod as any
@@ -281,6 +282,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const { data } = await api.post('/orders', {
         orderItems,
         shippingAddress: {
+          name: deliveryDetails.name,
+          phone: deliveryDetails.phone,
           address: deliveryDetails.address,
           city: "Unknown", // Frontend doesn't convert address string to parts yet
           postalCode: "00000",
@@ -414,9 +417,39 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       localStorage.setItem("auth_token", JSON.stringify(authToken))
       setUser(newUser)
       return true
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed", error)
-      return false
+      throw error // Throw error to be handled by the component
+    }
+  }
+
+  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+    try {
+      const { data } = await api.post('/auth/register', {
+        name,
+        email: email.trim().toLowerCase(),
+        password: password.trim()
+      })
+
+      const newUser: User = {
+        id: data._id,
+        email: data.email,
+        name: data.name,
+        role: data.role as "admin" | "user",
+      }
+
+      const authToken: AuthToken = {
+        token: data.token,
+        user: newUser,
+        expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
+      }
+
+      localStorage.setItem("auth_token", JSON.stringify(authToken))
+      setUser(newUser)
+      return true
+    } catch (error: any) {
+      console.error("Registration failed", error)
+      throw error
     }
   }
 
@@ -477,6 +510,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         getCartTotal,
         user,
         login,
+        register,
         logout,
         isAdmin,
         orders,

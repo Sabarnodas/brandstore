@@ -15,7 +15,7 @@ export default function HomePage() {
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
       <section className="mb-12 rounded-lg bg-gradient-to-r from-primary/10 to-primary/5 p-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold text-balance">Welcome to E-Shop</h1>
+        <h1 className="mb-4 text-4xl font-bold text-balance">Welcome to IEM BrandStore</h1>
         <p className="mb-6 text-lg text-muted-foreground text-balance">
           Discover amazing products at unbeatable prices
         </p>

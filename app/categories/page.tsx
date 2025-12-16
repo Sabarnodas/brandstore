@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { categories } from "@/lib/dummy-data"
@@ -11,6 +11,7 @@ import { ShoppingCart } from "lucide-react"
 
 export default function CategoriesPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const categoryFromUrl = searchParams.get("category")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categoryFromUrl)
   const { products, addToCart, user } = useStore()
@@ -31,7 +32,7 @@ export default function CategoriesPage() {
     // Only allow direct add to cart for products without sizes
     if (product.sizes && product.sizes.length > 0) {
       // Redirect to product page for size selection
-      window.location.href = `/products/${product.id}`
+      router.push(`/products/${product.id}`)
       return
     }
     addToCart(product)

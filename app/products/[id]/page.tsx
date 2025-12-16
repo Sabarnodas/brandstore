@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, ShoppingCart, Package, Building2 } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params
+export default function ProductDetailPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const { products, addToCart, user } = useStore()
   const product = products.find((p) => p.id === id)

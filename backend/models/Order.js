@@ -11,6 +11,8 @@ const orderSchema = mongoose.Schema({
         size: { type: String }
     }],
     shippingAddress: {
+        name: { type: String },
+        phone: { type: String },
         address: { type: String, required: true },
         city: { type: String, required: true },
         postalCode: { type: String, required: true },
