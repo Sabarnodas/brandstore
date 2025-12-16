@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased flex flex-col min-h-screen`}>
+      <body className={`font-sans antialiased flex flex-col min-h-screen`} suppressHydrationWarning>
         <StoreProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

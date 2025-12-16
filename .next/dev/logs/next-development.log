@@ -1,0 +1,388 @@
+[00:00:03.239] Server  LOG     
+[00:00:03.241] Server  LOG        We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+[00:00:03.241] Server  LOG        The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+[00:00:03.243] Server  LOG        	- include was updated to add '.next/dev/types/**/*.ts'
+[00:00:03.244] Server  LOG     
+[00:00:03.246] Server  LOG        The following mandatory changes were made to your tsconfig.json:
+
+[00:00:03.247] Server  LOG        	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+[00:00:03.249] Server  LOG     
+[00:00:04.092] Server  LOG      ✓ Ready in 2.9s
+[00:00:49.083] Server  LOG      ○ Compiling / ...
+[00:01:09.163] Server  ERROR    ⨯ ./contexts/store-context.tsx:194:2
+Parsing ecmascript source code failed
+  192 |
+  193 |   fetchOrders()
+> 194 | }, [user])
+      |  ^
+  195 |
+  196 | useEffect(() => {
+  197 |   localStorage.setItem("cart", JSON.stringify(cart))
+
+Expression expected
+
+Import traces:
+  #1 [Server Component]:
+    ./contexts/store-context.tsx
+    ./app/layout.tsx
+
+  #2 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+  #4 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./components/navbar.tsx [Client Component Browser]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #5 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./components/navbar.tsx [Client Component SSR]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+
+[00:01:12.225] Server  LOG      ○ Compiling /_error ...
+[00:01:18.735] Browser ERROR   uncaughtError: Error: ./contexts/store-context.tsx:194:2
+Parsing ecmascript source code failed
+  192 |
+  193 |   fetchOrders()
+> 194 | }, [user])
+      |  ^
+  195 |
+  196 | useEffect(() => {
+  197 |   localStorage.setItem("cart", JSON.stringify(cart))
+
+Expression expected
+
+Import traces:
+  #1 [Server Component]:
+    ./contexts/store-context.tsx
+    ./app/layout.tsx
+
+  #2 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+  #4 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./components/navbar.tsx [Client Component Browser]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #5 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./components/navbar.tsx [Client Component SSR]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+
+[00:01:19.379] Browser ERROR   ./contexts/store-context.tsx:194:2
+Parsing ecmascript source code failed
+  192 |
+  193 |   fetchOrders()
+> 194 | }, [user])
+      |  ^
+  195 |
+  196 | useEffect(() => {
+  197 |   localStorage.setItem("cart", JSON.stringify(cart))
+
+Expression expected
+
+Import traces:
+  #1 [Server Component]:
+    ./contexts/store-context.tsx
+    ./app/layout.tsx
+
+  #2 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+  #4 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./components/navbar.tsx [Client Component Browser]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #5 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./components/navbar.tsx [Client Component SSR]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:01:19.994] Browser ERROR   ./contexts/store-context.tsx:194:2
+Parsing ecmascript source code failed
+  192 |
+  193 |   fetchOrders()
+> 194 | }, [user])
+      |  ^
+  195 |
+  196 | useEffect(() => {
+  197 |   localStorage.setItem("cart", JSON.stringify(cart))
+
+Expression expected
+
+Import traces:
+  #1 [Server Component]:
+    ./contexts/store-context.tsx
+    ./app/layout.tsx
+
+  #2 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+  #4 [Client Component Browser]:
+    ./contexts/store-context.tsx [Client Component Browser]
+    ./components/navbar.tsx [Client Component Browser]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #5 [Client Component SSR]:
+    ./contexts/store-context.tsx [Client Component SSR]
+    ./components/navbar.tsx [Client Component SSR]
+    ./components/navbar.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:03:06.899] Server  LOG      ✓ Compiled in 5s
+[00:03:12.146] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:12.792] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:03:13.755] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:03:13.755] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:03:13.755] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866222151}
+[00:03:29.252] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866238242}
+[00:03:32.352] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866241332}
+[00:03:35.239] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories?category=Clothing color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories?category=Clothing","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866244221}
+[00:04:11.459] Server  LOG      ○ Compiling /cart ...
+[00:04:15.354] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866284338}
+[00:04:29.084] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866297937}
+[00:04:33.173] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866302165}
+[00:04:35.181] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866304169}
+[00:06:01.851] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:02.739] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categories" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en">
+                          <body
+                            className="font-sans antialiased flex flex-col min-h-screen"
+-                           data-new-gr-c-s-check-loaded="14.1130.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+
+[00:06:02.739] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:06:02.740] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:06:02.740] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/categories","route":"/categories"}
+[00:06:02.740] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866391579}
+[00:09:40.905] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:41.468] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:09:41.613] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:09:41.613] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/categories","route":"/categories"}
+[00:09:41.613] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866610594}
+[00:10:20.448] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866649433}
+[00:10:50.982] Server  LOG      ○ Compiling /checkout ...
+[00:10:53.224] Browser ERROR   Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-render LinkComponent CheckoutPage CheckoutPage
+[00:10:53.612] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866682590}
+[00:12:19.618] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866768586}
+[00:12:21.893] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765866770882}
+[00:12:37.311] Browser ERROR   Login failed {"code":"ERR_BAD_REQUEST","config":{"adapter":["xhr","http","fetch"],"allowAbsoluteUrls":true,"baseURL":"http://localhost:5000/api","data":"{\"email\":\"ananya@gmail.com\",\"password\":\"ananya11\"}","env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json"},"maxBodyLength":-1,"maxContentLength":-1,"method":"post","timeout":0,"transformRequest":[null],"transformResponse":[null],"transitional":{"clarifyTimeoutError":false,"forcedJSONParsing":true,"silentJSONParsing":true},"url":"/auth/login","xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN"},"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:3905:16)\n    at XMLHttpRequest.onloadend (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:4420:174)\n    at Axios.request (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:5224:49)\n    at async login (http://localhost:3000/_next/static/chunks/_743d4bb6._.js:575:30)\n    at async handleSubmit (http://localhost:3000/_next/static/chunks/_b927a95f._.js:301:25)","status":401}
+[00:12:54.750] Browser ERROR   Login failed {"code":"ERR_BAD_REQUEST","config":{"adapter":["xhr","http","fetch"],"allowAbsoluteUrls":true,"baseURL":"http://localhost:5000/api","data":"{\"email\":\"ananya@gmail.com\",\"password\":\"Ananya@11\"}","env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json"},"maxBodyLength":-1,"maxContentLength":-1,"method":"post","timeout":0,"transformRequest":[null],"transformResponse":[null],"transitional":{"clarifyTimeoutError":false,"forcedJSONParsing":true,"silentJSONParsing":true},"url":"/auth/login","xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN"},"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:3905:16)\n    at XMLHttpRequest.onloadend (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:4420:174)\n    at Axios.request (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:5224:49)\n    at async login (http://localhost:3000/_next/static/chunks/_743d4bb6._.js:575:30)\n    at async handleSubmit (http://localhost:3000/_next/static/chunks/_b927a95f._.js:301:25)","status":401}
+[00:17:41.585] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:42.024] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/login" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en">
+                          <body
+                            className="font-sans antialiased flex flex-col min-h-screen"
+-                           data-new-gr-c-s-check-loaded="14.1130.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+
+[00:17:42.024] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:17:42.078] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:17:42.079] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:17:42.079] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867091064}
+[00:18:25.927] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867134913}
+[00:18:47.111] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/categories?category=Clothing color: rgb(120, 120, 120) color: inherit {"dp":"/categories","o":"http://localhost:3000/categories?category=Clothing","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867156090}
+[00:21:05.271] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867294260}
+[00:21:21.888] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:22.162] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:21:22.274] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:21:22.274] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/cart","route":"/cart"}
+[00:21:22.274] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867311264}
+[00:21:24.973] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/checkout","o":"http://localhost:3000/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867313938}
+[00:24:30.013] Browser ERROR   Create order failed {"code":"ERR_BAD_RESPONSE","config":{"adapter":["xhr","http","fetch"],"allowAbsoluteUrls":true,"baseURL":"http://localhost:5000/api","data":"{\"orderItems\":[{\"name\":\"JavaScript Guide\",\"quantity\":1,\"image\":\"/javascript-programming-book.png\",\"price\":29.99,\"product\":\"3\"},{\"name\":\"Garden Tool Set\",\"quantity\":1,\"image\":\"/garden-tool-set.jpg\",\"price\":49.99,\"product\":\"4\"}],\"shippingAddress\":{\"address\":\"iem kolkata\",\"city\":\"Unknown\",\"postalCode\":\"00000\",\"country\":\"Unknown\"},\"paymentMethod\":\"credit\",\"totalPrice\":79.98}","env":{},"headers":{"Accept":"application/json, text/plain, */*","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDBmZGRlNzA4MGNhZWVkNzg2YmVhYSIsImlhdCI6MTc2NTg2NzEzNCwiZXhwIjoxNzY4NDU5MTM0fQ.hlaBLZ6cvRZSm_5U1bfjsOp6reRX6efd2AUdPeGs2HA","Content-Type":"application/json"},"maxBodyLength":-1,"maxContentLength":-1,"method":"post","timeout":0,"transformRequest":[null],"transformResponse":[null],"transitional":{"clarifyTimeoutError":false,"forcedJSONParsing":true,"silentJSONParsing":true},"url":"/orders","xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN"},"message":"Request failed with status code 500","name":"AxiosError","stack":"AxiosError: Request failed with status code 500\n    at settle (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:3905:16)\n    at XMLHttpRequest.onloadend (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:4420:174)\n    at Axios.request (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:5224:49)\n    at async createOrder (http://localhost:3000/_next/static/chunks/_743d4bb6._.js:454:30)\n    at async handleCheckout (http://localhost:3000/_next/static/chunks/_5c57ee9a._.js:315:27)","status":500}
+[00:24:30.015] Browser ERROR   Checkout error: {"code":"ERR_BAD_RESPONSE","config":{"adapter":["xhr","http","fetch"],"allowAbsoluteUrls":true,"baseURL":"http://localhost:5000/api","data":"{\"orderItems\":[{\"name\":\"JavaScript Guide\",\"quantity\":1,\"image\":\"/javascript-programming-book.png\",\"price\":29.99,\"product\":\"3\"},{\"name\":\"Garden Tool Set\",\"quantity\":1,\"image\":\"/garden-tool-set.jpg\",\"price\":49.99,\"product\":\"4\"}],\"shippingAddress\":{\"address\":\"iem kolkata\",\"city\":\"Unknown\",\"postalCode\":\"00000\",\"country\":\"Unknown\"},\"paymentMethod\":\"credit\",\"totalPrice\":79.98}","env":{},"headers":{"Accept":"application/json, text/plain, */*","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDBmZGRlNzA4MGNhZWVkNzg2YmVhYSIsImlhdCI6MTc2NTg2NzEzNCwiZXhwIjoxNzY4NDU5MTM0fQ.hlaBLZ6cvRZSm_5U1bfjsOp6reRX6efd2AUdPeGs2HA","Content-Type":"application/json"},"maxBodyLength":-1,"maxContentLength":-1,"method":"post","timeout":0,"transformRequest":[null],"transformResponse":[null],"transitional":{"clarifyTimeoutError":false,"forcedJSONParsing":true,"silentJSONParsing":true},"url":"/orders","xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN"},"message":"Request failed with status code 500","name":"AxiosError","stack":"AxiosError: Request failed with status code 500\n    at settle (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:3905:16)\n    at XMLHttpRequest.onloadend (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:4420:174)\n    at Axios.request (http://localhost:3000/_next/static/chunks/node_modules_f496d9bc._.js:5224:49)\n    at async createOrder (http://localhost:3000/_next/static/chunks/_743d4bb6._.js:454:30)\n    at async handleCheckout (http://localhost:3000/_next/static/chunks/_5c57ee9a._.js:315:27)","status":500}
+[00:26:25.059] Server  LOG      ✓ Compiled in 1057ms
+[00:26:25.828] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/store-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:26:29.264] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.285] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\.next\dev\server\chunks\ssr\_4a11c8a0._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.289] Server  ERROR   ReferenceError: location is not defined
+[00:26:29.311] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.315] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\.next\dev\server\chunks\ssr\_4a11c8a0._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.317] Server  ERROR    ⨯ "uncaughtException:" ReferenceError: location is not defined
+[00:26:29.324] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.328] Server  ERROR   C:\Users\anany\Downloads\BrandStore_Vercel\.next\dev\server\chunks\ssr\_4a11c8a0._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:29.330] Server  ERROR    ⨯ "uncaughtException: " ReferenceError: location is not defined
+[00:26:30.561] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:26:32.090] Browser ERROR   Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-render Router CheckoutPage CheckoutPage
+[00:26:34.015] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RenderFromTemplateContext>
+      <ScrollAndFocusHandler segmentPath={[...]}>
+        <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:true, ...}}>
+          <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+            <LoadingBoundary name="login/" loading={Promise}>
+              <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+                <RedirectBoundary>
+                  <RedirectErrorBoundary router={{...}}>
+                    <InnerLayoutRouter url="/login?red..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
+                      <SegmentViewNode type="page" pagePath="login/page...">
+                        <SegmentTrieNode>
+                        <ClientPageRoot Component={function LoginPage} serverProvidedParams={{...}}>
+                          <LoginPage params={Promise} searchParams={Promise}>
++                           <div className="container mx-auto px-4 py-16">
+-                           <Suspense>
+                      ...
+                    ...
+          ...
+
+[00:26:34.015] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:26:34.015] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:26:34.015] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:26:34.015] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:26:34.015] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867622457}
+[00:26:34.015] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867622458}
+[00:28:00.717] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:28:01.191] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/login" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en">
+                          <body
+                            className="font-sans antialiased flex flex-col min-h-screen"
+-                           data-new-gr-c-s-check-loaded="14.1130.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+
+[00:28:01.191] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:28:01.191] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:28:01.191] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
+[00:28:01.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login?redirect=/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login?redirect=/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765867710106}
+[00:29:19.696] Server  LOG      ✓ Compiled in 1245ms

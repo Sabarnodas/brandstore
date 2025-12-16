@@ -44,12 +44,12 @@ export default function CheckoutPage() {
     })
   }
 
-  const handleCheckout = (e: React.FormEvent) => {
+  const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsProcessing(true)
 
     try {
-      const order = createOrder({
+      const order = await createOrder({
         name: formData.name,
         phone: formData.phone,
         address: formData.address,

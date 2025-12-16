@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { products as initialProducts, type Product } from "@/lib/dummy-data"
+import api from "@/lib/api"
+
 
 interface CartItem extends Product {
   quantity: number
@@ -77,12 +79,13 @@ interface StoreContextType {
   clearCart: () => void
   getCartTotal: () => number
   user: User | null
-  login: (email: string, password: string) => boolean
+  login: (email: string, password: string) => Promise<boolean>
   logout: () => void
   isAdmin: boolean
   orders: Order[]
-  createOrder: (deliveryDetails: DeliveryDetails) => Order
+  createOrder: (deliveryDetails: DeliveryDetails) => Promise<Order>
   getAllOrders: () => Order[]
+
   products: Product[]
   addProduct: (product: Omit<Product, "id">) => void
   updateProduct: (id: string, updates: Partial<Product>) => void
@@ -133,42 +136,63 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    const storedOrders = localStorage.getItem("orders")
-    if (storedOrders) {
+    // Fetch products from backend
+    const fetchProducts = async () => {
       try {
-        setOrders(JSON.parse(storedOrders))
+        const { data } = await api.get('/products')
+        setProducts(data)
       } catch (error) {
-        console.error("Failed to load orders:", error)
+        console.error("Failed to fetch products:", error)
+        // Fallback to dummy data if API fails to avoid broken UI during dev
+        setProducts(initialProducts)
       }
     }
 
-    const storedProducts = localStorage.getItem("products")
-    if (storedProducts) {
-      try {
-        setProducts(JSON.parse(storedProducts))
-      } catch (error) {
-        console.error("Failed to load products:", error)
-      }
-    }
+    fetchProducts()
 
-    const storedLogs = localStorage.getItem("delivery_logs")
-    if (storedLogs) {
-      try {
-        setDeliveryLogs(JSON.parse(storedLogs))
-      } catch (error) {
-        console.error("Failed to load delivery logs:", error)
-      }
-    }
-
-    const storedManufacturerOrders = localStorage.getItem("manufacturer_orders")
-    if (storedManufacturerOrders) {
-      try {
-        setManufacturerOrders(JSON.parse(storedManufacturerOrders))
-      } catch (error) {
-        console.error("Failed to load manufacturer orders:", error)
-      }
-    }
+    // Fetch orders if user is logged in
+    // This will be handled in a separate effect dependent on 'user'
   }, [])
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (user) {
+        try {
+          const { data } = await api.get('/orders')
+          // Map backend order to frontend Order interface
+          const mappedOrders: Order[] = data.map((order: any) => ({
+            id: order._id,
+            userId: order.user._id || order.user,
+            items: order.orderItems.map((item: any) => ({
+              productId: item.product,
+              productName: item.name,
+              quantity: item.quantity,
+              price: item.price,
+              selectedSize: item.size
+            })),
+            total: order.totalPrice,
+            deliveryDetails: {
+              name: user.name, // Best effort
+              phone: "Not provided",
+              address: order.shippingAddress?.address || "",
+              deliveryOption: "home", // Default
+              paymentMethod: order.paymentMethod as any
+            },
+            orderStatus: order.status === 'pending' ? 'Placed' : 'Processing', // Map status
+            deliveryStatus: order.isDelivered ? 'Delivered' : 'In Process',
+            createdAt: order.createdAt
+          }))
+          setOrders(mappedOrders)
+        } catch (e) {
+          console.error("Failed to fetch orders", e)
+        }
+      } else {
+        setOrders([])
+      }
+    }
+
+    fetchOrders()
+  }, [user])
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart))
@@ -233,7 +257,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
   }
 
-  const createOrder = (deliveryDetails: DeliveryDetails): Order => {
+  const createOrder = async (deliveryDetails: DeliveryDetails): Promise<Order> => {
     if (!user) {
       throw new Error("User must be logged in to create an order")
     }
@@ -242,38 +266,61 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       throw new Error("Cart is empty")
     }
 
-    const orderItems: OrderItem[] = cart.map((item) => ({
-      productId: item.id,
-      productName: item.name,
+    const orderItems = cart.map((item) => ({
+      name: item.name,
       quantity: item.quantity,
+      image: item.image,
       price: item.price,
-      selectedSize: item.selectedSize,
+      product: item._id || item.id,
+      size: item.selectedSize
     }))
 
     const total = getCartTotal()
 
-    const newOrder: Order = {
-      id: `ORD-${Date.now()}`,
-      userId: user.id,
-      items: orderItems,
-      total,
-      deliveryDetails,
-      orderStatus: "Placed",
-      deliveryStatus: "In Process",
-      createdAt: new Date().toISOString(),
+    try {
+      const { data } = await api.post('/orders', {
+        orderItems,
+        shippingAddress: {
+          address: deliveryDetails.address,
+          city: "Unknown", // Frontend doesn't convert address string to parts yet
+          postalCode: "00000",
+          country: "Unknown"
+        },
+        paymentMethod: deliveryDetails.paymentMethod,
+        totalPrice: total
+      })
+
+      // Adapt backend response to Order interface if needed
+      // Backend returns _id, frontend uses id
+      // Map it:
+      const newOrder: Order = {
+        id: data._id,
+        userId: user.id, // simplified
+        items: data.orderItems.map((i: any) => ({
+          productId: i.product,
+          productName: i.name,
+          quantity: i.quantity,
+          price: i.price,
+          selectedSize: i.size
+        })),
+        total: data.totalPrice,
+        deliveryDetails,
+        orderStatus: "Placed",
+        deliveryStatus: "In Process", // Backend default
+        createdAt: data.createdAt
+      }
+
+      setOrders((prev) => [newOrder, ...prev])
+      clearCart()
+      return newOrder
+    } catch (error) {
+      console.error("Create order failed", error)
+      throw error
     }
-
-    setOrders((prev) => [newOrder, ...prev])
-    clearCart()
-
-    return newOrder
   }
 
-  const getAllOrders = (): Order[] => {
-    if (user?.role === "admin") {
-      return orders
-    }
-    return orders.filter((order) => order.userId === user?.id)
+  const getAllOrders = () => {
+    return orders
   }
 
   const addProduct = (product: Omit<Product, "id">) => {
@@ -347,31 +394,30 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     })
   }
 
-  const login = (email: string, password: string): boolean => {
-    let role: "admin" | "user" = "user"
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const { data } = await api.post('/auth/login', { email, password })
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      role = "admin"
-    } else if (password.length < 6) {
+      const newUser: User = {
+        id: data._id,
+        email: data.email,
+        name: data.name,
+        role: data.role as "admin" | "user",
+      }
+
+      const authToken: AuthToken = {
+        token: data.token,
+        user: newUser,
+        expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
+      }
+
+      localStorage.setItem("auth_token", JSON.stringify(authToken))
+      setUser(newUser)
+      return true
+    } catch (error) {
+      console.error("Login failed", error)
       return false
     }
-
-    const newUser: User = {
-      id: `user-${Date.now()}`,
-      email,
-      name: email.split("@")[0],
-      role,
-    }
-
-    const authToken: AuthToken = {
-      token: `mock_jwt_${btoa(email)}_${Date.now()}`,
-      user: newUser,
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-    }
-
-    localStorage.setItem("auth_token", JSON.stringify(authToken))
-    setUser(newUser)
-    return true
   }
 
   const logout = () => {
