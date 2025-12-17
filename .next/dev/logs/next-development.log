@@ -1,77 +1,10 @@
-[00:00:05.229] Server  LOG      ✓ Ready in 3.4s
-[00:01:34.737] Server  LOG      ○ Compiling / ...
-[00:01:51.160] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:51.755] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:01:51.755] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:01:51.755] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:01:51.755] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953231483}
-[00:02:45.848] Server  LOG      ○ Compiling /login ...
-[00:02:47.678] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953287393}
-[00:03:06.566] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953306288}
-[00:03:13.274] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953312991}
-[00:03:23.286] Server  LOG      ○ Compiling /admin/stock ...
-[00:03:24.300] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953323974}
-[00:03:30.390] Server  LOG      ○ Compiling /admin/manufacturer ...
-[00:03:31.648] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953331355}
-[00:03:35.838] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:03:35.842] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:47.915] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:47.927] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:04:59.581] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953419273}
-[00:05:06.343] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765953426066}
-[00:15:15.250] Server  LOG      ✓ Compiled in 2.4s
-[00:15:39.699] Server  LOG      ✓ Compiled in 957ms
-[00:17:06.693] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/store-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:17:06.832] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./contexts/store-context.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:17:11.954] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:17:13.178] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:17:14.600] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:17:14.600] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/manufacturer","route":"/admin/manufacturer"}
-[00:17:14.600] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765954154257}
-[00:17:15.132] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765954154641}
-[00:19:56.430] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765954315947}
-[00:23:46.846] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765954546256}
-[00:24:08.356] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765954567949}
-[00:24:12.177] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:24:12.177] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:24:45.069] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:24:45.093] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:31:08.149] Server  LOG      ✓ Compiled in 7.9s
-[00:40:43.435] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:40:43.821] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:40:44.975] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:40:44.975] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/manufacturer","route":"/admin/manufacturer"}
-[00:40:44.975] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/login","route":"/login"}
-[00:40:44.975] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955564575}
-[00:40:44.975] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955564575}
-[00:40:58.113] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955577704}
-[00:41:03.419] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955583011}
-[00:41:06.678] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955586267}
-[00:41:09.646] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955589164}
-[00:41:22.921] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955602515}
-[00:41:24.906] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:41:24.906] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:42:02.503] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:42:02.518] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:42:12.478] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955652065}
-[00:42:17.738] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:42:18.509] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:42:19.130] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:42:19.130] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin/stock","route":"/admin/stock"}
-[00:42:19.130] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955658643}
-[00:42:19.130] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955658710}
-[00:42:37.745] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955677334}
-[00:42:52.410] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955691997}
-[00:42:55.299] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955694883}
-[00:43:01.272] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955700869}
-[00:43:08.450] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:43:08.450] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:43:33.727] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:43:33.735] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:43:49.113] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955748696}
-[00:45:06.763] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955826340}
-[00:45:09.443] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:45:09.443] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:46:16.700] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955896281}
-[00:46:30.116] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/manufacturer color: rgb(120, 120, 120) color: inherit {"dp":"/admin/manufacturer","o":"http://localhost:3000/admin/manufacturer","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955909715}
-[00:46:36.442] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/stock color: rgb(120, 120, 120) color: inherit {"dp":"/admin/stock","o":"http://localhost:3000/admin/stock","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765955916042}
+[00:00:04.553] Server  LOG      ✓ Ready in 3.5s
+[00:00:19.558] Server  LOG      ○ Compiling /products/[id] ...
+[00:00:32.761] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:34.857] Browser WARN    Image with src "http://localhost:3000/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:35.441] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:35.441] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/products/3","route":"/products/[id]"}
+[00:00:35.442] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/products/3 color: rgb(120, 120, 120) color: inherit {"dp":"/products/[id]","o":"http://localhost:3000/products/3","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765958939934}
+[00:00:44.682] Server  LOG      ○ Compiling /cart ...
+[00:00:45.332] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/cart color: rgb(120, 120, 120) color: inherit {"dp":"/cart","o":"http://localhost:3000/cart","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765958950098}
+[00:00:50.471] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/checkout color: rgb(120, 120, 120) color: inherit {"dp":"/checkout","o":"http://localhost:3000/checkout","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765958955210}

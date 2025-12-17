@@ -172,14 +172,14 @@ export default function CheckoutPage() {
                     <RadioGroupItem value="credit" id="credit" />
                     <Label htmlFor="credit" className="flex flex-1 cursor-pointer items-center gap-2">
                       <CreditCard className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-semibold">Credit Card</span>
+                      <span className="font-semibold">Stripe</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-3 rounded-lg border p-4">
                     <RadioGroupItem value="debit" id="debit" />
                     <Label htmlFor="debit" className="flex flex-1 cursor-pointer items-center gap-2">
                       <CreditCard className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-semibold">Debit Card</span>
+                      <span className="font-semibold">Razorpay</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-3 rounded-lg border p-4">
