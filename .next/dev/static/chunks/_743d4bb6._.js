@@ -327,8 +327,8 @@ function StoreProvider({ children }) {
                                         }["StoreProvider.useEffect.fetchOrders.mappedOrders"]),
                                         total: order.totalPrice,
                                         deliveryDetails: {
-                                            name: user.name,
-                                            phone: "Not provided",
+                                            name: order.shippingAddress?.name || order.user && order.user.name || "Unknown User",
+                                            phone: order.shippingAddress?.phone || "Not provided",
                                             address: order.shippingAddress?.address || "",
                                             deliveryOption: "home",
                                             paymentMethod: order.paymentMethod
@@ -454,6 +454,8 @@ function StoreProvider({ children }) {
             const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].post('/orders', {
                 orderItems,
                 shippingAddress: {
+                    name: deliveryDetails.name,
+                    phone: deliveryDetails.phone,
                     address: deliveryDetails.address,
                     city: "Unknown",
                     postalCode: "00000",
@@ -592,7 +594,34 @@ function StoreProvider({ children }) {
             return true;
         } catch (error) {
             console.error("Login failed", error);
-            return false;
+            throw error // Throw error to be handled by the component
+            ;
+        }
+    };
+    const register = async (name, email, password)=>{
+        try {
+            const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].post('/auth/register', {
+                name,
+                email: email.trim().toLowerCase(),
+                password: password.trim()
+            });
+            const newUser = {
+                id: data._id,
+                email: data.email,
+                name: data.name,
+                role: data.role
+            };
+            const authToken = {
+                token: data.token,
+                user: newUser,
+                expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000
+            };
+            localStorage.setItem("auth_token", JSON.stringify(authToken));
+            setUser(newUser);
+            return true;
+        } catch (error) {
+            console.error("Registration failed", error);
+            throw error;
         }
     };
     const logout = ()=>{
@@ -622,7 +651,7 @@ function StoreProvider({ children }) {
                                 if (product.id === order.productId) {
                                     return {
                                         ...product,
-                                        stock: product.stock + order.quantity
+                                        stock: product.stock + (updatedOrder.quantityReceived || updatedOrder.quantity)
                                     };
                                 }
                                 return product;
@@ -646,6 +675,7 @@ function StoreProvider({ children }) {
             getCartTotal,
             user,
             login,
+            register,
             logout,
             isAdmin,
             orders,
@@ -666,7 +696,7 @@ function StoreProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/contexts/store-context.tsx",
-        lineNumber: 470,
+        lineNumber: 504,
         columnNumber: 5
     }, this);
 }

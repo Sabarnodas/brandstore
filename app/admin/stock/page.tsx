@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Package, AlertTriangle } from "lucide-react"
 
 export default function AdminStockPage() {
-  const { products, updateStock } = useStore()
+  const { products, updateStock, manufacturerOrders } = useStore()
   const [stockUpdates, setStockUpdates] = useState<Record<string, string>>({})
 
   const handleStockChange = (productId: string, value: string) => {
@@ -74,6 +74,15 @@ export default function AdminStockPage() {
               const currentStockValue = stockUpdates[product.id] ?? product.stock.toString()
               const isModified = stockUpdates[product.id] !== undefined
 
+              // Calculate stats from manufacturer orders
+              const incomingStock = manufacturerOrders
+                .filter(o => o.productId === product.id && (o.status === 'Ordered' || o.status === 'In Transit'))
+                .reduce((sum, o) => sum + o.quantity, 0)
+
+              const totalReceived = manufacturerOrders
+                .filter(o => o.productId === product.id && o.status === 'Received')
+                .reduce((sum, o) => sum + (o.quantityReceived || 0), 0)
+
               return (
                 <div key={product.id} className="flex items-center justify-between rounded-lg border p-4">
                   <div className="flex items-center gap-4">
@@ -95,6 +104,10 @@ export default function AdminStockPage() {
                       <p className="text-sm text-muted-foreground">
                         {product.category} • Manufacturer: {product.manufacturer}
                       </p>
+                      <div className="mt-1 flex gap-4 text-xs text-muted-foreground">
+                        <span>Incoming: <span className="font-medium text-blue-600">{incomingStock}</span></span>
+                        <span>Total Received: <span className="font-medium text-green-600">{totalReceived}</span></span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">

@@ -65,6 +65,7 @@ export interface ManufacturerOrder {
   productId: string
   productName: string
   quantity: number
+  quantityReceived: number
   cost: number
   orderDate: string
   expectedArrival: string
@@ -480,7 +481,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
                 if (product.id === order.productId) {
                   return {
                     ...product,
-                    stock: product.stock + order.quantity,
+                    stock: product.stock + (updatedOrder.quantityReceived || updatedOrder.quantity),
                   }
                 }
                 return product

@@ -179,6 +179,7 @@
     --color-green-900: #0d542b;
     --color-blue-100: #dbeafe;
     --color-blue-200: #bedbff;
+    --color-blue-600: #155dfc;
     --color-blue-800: #193cb8;
     --color-gray-100: #f3f4f6;
     --color-gray-200: #e5e7eb;
@@ -251,6 +252,7 @@
       --color-green-900: lab(30.797% -29.6927 17.382);
       --color-blue-100: lab(92.0301% -2.24757 -11.6453);
       --color-blue-200: lab(86.15% -4.04379 -21.0797);
+      --color-blue-600: lab(44.0605% 29.0279 -86.0352);
       --color-blue-800: lab(30.2514% 27.7854 -70.2699);
       --color-gray-100: lab(96.1596% -.082314 -1.13575);
       --color-gray-200: lab(91.6229% -.159085 -2.26791);
@@ -1225,8 +1227,8 @@
     width: 100px;
   }
 
-  .w-\[180px\] {
-    width: 180px;
+  .w-\[300px\] {
+    width: 300px;
   }
 
   .w-auto {
@@ -1303,6 +1305,10 @@
 
   .min-w-\[60px\] {
     min-width: 60px;
+  }
+
+  .min-w-\[200px\] {
+    min-width: 200px;
   }
 
   .min-w-\[var\(--radix-select-trigger-width\)\] {
@@ -1609,6 +1615,12 @@
     --tw-space-y-reverse: 0;
     margin-block-start: calc(calc(var(--spacing) * 6) * var(--tw-space-y-reverse));
     margin-block-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-y-reverse)));
+  }
+
+  :where(.space-x-2 > :not(:last-child)) {
+    --tw-space-x-reverse: 0;
+    margin-inline-start: calc(calc(var(--spacing) * 2) * var(--tw-space-x-reverse));
+    margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-x-reverse)));
   }
 
   :where(.space-x-3 > :not(:last-child)) {
@@ -2169,6 +2181,10 @@
     padding-right: calc(var(--spacing) * 8);
   }
 
+  .pb-1 {
+    padding-bottom: calc(var(--spacing) * 1);
+  }
+
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
   }
@@ -2340,6 +2356,10 @@
     color: var(--background);
   }
 
+  .text-blue-600 {
+    color: var(--color-blue-600);
+  }
+
   .text-blue-800 {
     color: var(--color-blue-800);
   }
@@ -2455,6 +2475,10 @@
   .tabular-nums {
     --tw-numeric-spacing: tabular-nums;
     font-variant-numeric: var(--tw-ordinal, ) var(--tw-slashed-zero, ) var(--tw-numeric-figure, ) var(--tw-numeric-spacing, ) var(--tw-numeric-fraction, );
+  }
+
+  .underline {
+    text-decoration-line: underline;
   }
 
   .underline-offset-4 {
@@ -3076,9 +3100,18 @@
     border-bottom-right-radius: calc(var(--radius)  - 2px);
   }
 
+  .last\:border-0:last-child {
+    border-style: var(--tw-border-style);
+    border-width: 0;
+  }
+
   .last\:border-b-0:last-child {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 0;
+  }
+
+  .last\:pb-0:last-child {
+    padding-bottom: calc(var(--spacing) * 0);
   }
 
   @media (hover: hover) {

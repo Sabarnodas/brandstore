@@ -40,6 +40,7 @@ export default function AdminManufacturerPage() {
       productId: formData.productId,
       productName: product.name,
       quantity: Number.parseInt(formData.quantity),
+      quantityReceived: 0,
       cost: Number.parseFloat(formData.cost),
       orderDate: formData.orderDate,
       expectedArrival: formData.expectedArrival,
@@ -71,6 +72,7 @@ export default function AdminManufacturerPage() {
 
     updateManufacturerOrder(editingOrder.id, {
       quantity: Number.parseInt(formData.get("quantity") as string),
+      quantityReceived: Number.parseInt(formData.get("quantityReceived") as string),
       cost: Number.parseFloat(formData.get("cost") as string),
       orderDate: formData.get("orderDate") as string,
       expectedArrival: formData.get("expectedArrival") as string,
@@ -241,7 +243,8 @@ export default function AdminManufacturerPage() {
                   <TableRow>
                     <TableHead>Order ID</TableHead>
                     <TableHead>Product</TableHead>
-                    <TableHead className="text-right">Quantity</TableHead>
+                    <TableHead className="text-right">Quantity Ordered</TableHead>
+                    <TableHead className="text-right">Quantity Received</TableHead>
                     <TableHead className="text-right">Cost/Unit</TableHead>
                     <TableHead className="text-right">Total Cost</TableHead>
                     <TableHead>Order Date</TableHead>
@@ -256,6 +259,7 @@ export default function AdminManufacturerPage() {
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.productName}</TableCell>
                       <TableCell className="text-right">{order.quantity}</TableCell>
+                      <TableCell className="text-right">{order.quantityReceived || 0}</TableCell>
                       <TableCell className="text-right">${order.cost.toFixed(2)}</TableCell>
                       <TableCell className="text-right">${(order.quantity * order.cost).toFixed(2)}</TableCell>
                       <TableCell>{new Date(order.orderDate).toLocaleDateString()}</TableCell>
@@ -306,6 +310,18 @@ export default function AdminManufacturerPage() {
                   min="1"
                   required
                   defaultValue={editingOrder.quantity}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="edit-quantityReceived">Quantity Received</Label>
+                <Input
+                  id="edit-quantityReceived"
+                  name="quantityReceived"
+                  type="number"
+                  min="0"
+                  required
+                  defaultValue={editingOrder.quantityReceived || 0}
                 />
               </div>
 
