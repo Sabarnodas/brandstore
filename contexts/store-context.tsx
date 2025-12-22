@@ -123,6 +123,7 @@ interface StoreContextType {
   orders: Order[]
   createOrder: (deliveryDetails: DeliveryDetails) => Promise<Order>
   getAllOrders: () => Order[]
+  cancelOrder: (orderId: string) => Promise<void>
 
   products: Product[]
   addProduct: (product: Omit<Product, "id">) => void
@@ -140,10 +141,11 @@ interface StoreContextType {
   addCategory: (category: { name: string, description: string }) => Promise<void>
   updateCategory: (id: string, updates: { name?: string, description?: string }) => Promise<void>
   deleteCategory: (id: string) => Promise<void>
-
   vendorInvoices: VendorInvoice[]
   fetchVendorInvoices: () => Promise<void>
   payVendorInvoice: (invoiceId: string) => Promise<void>
+
+  isLoading: boolean
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined)
@@ -159,6 +161,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [deliveryLogs, setDeliveryLogs] = useState<DeliveryLog[]>([])
   const [manufacturerOrders, setManufacturerOrders] = useState<ManufacturerOrder[]>([])
   const [vendorInvoices, setVendorInvoices] = useState<VendorInvoice[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedAuth = localStorage.getItem("auth_token")
@@ -204,6 +207,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
     // Fetch orders if user is logged in
     // This will be handled in a separate effect dependent on 'user'
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
@@ -230,7 +234,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
               deliveryOption: "home", // Default
               paymentMethod: order.paymentMethod as any
             },
-            orderStatus: order.status === 'pending' ? 'Placed' : 'Processing', // Map status
+            orderStatus:
+              order.status === 'Cancelled' ? 'Cancelled' :
+                order.status === 'pending' ? 'Placed' :
+                  order.status === 'Processing' ? 'Processing' :
+                    order.status === 'Shipped' ? 'Shipped' :
+                      order.status === 'Delivered' ? 'Delivered' :
+                        'Processing', // Fallback
             deliveryStatus: order.isDelivered ? 'Delivered' : 'In Process',
             createdAt: order.createdAt
           }))
@@ -394,6 +404,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const getAllOrders = () => {
     return orders
+  }
+
+  const cancelOrder = async (orderId: string) => {
+    try {
+      await api.put(`/orders/${orderId}/cancel`)
+      setOrders(prev => prev.map(order =>
+        order.id === orderId ? { ...order, orderStatus: 'Cancelled' } : order
+      ))
+    } catch (error) {
+      console.error("Failed to cancel order:", error)
+      throw error
+    }
   }
 
   // Products CRUD with Backend
@@ -715,6 +737,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         orders,
         createOrder,
         getAllOrders,
+        cancelOrder,
         products,
         addProduct,
         updateProduct,
@@ -731,10 +754,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         addCategory,
         updateCategory,
         deleteCategory,
-
         vendorInvoices,
         fetchVendorInvoices,
-        payVendorInvoice
+        payVendorInvoice,
+        isLoading
       }}
     >
       {children}
