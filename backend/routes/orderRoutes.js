@@ -15,16 +15,42 @@ router.post('/', protect, async (req, res) => {
         res.status(400).json({ message: 'No order items' });
         return;
     } else {
-        const order = new Order({
-            user: req.user._id,
-            orderItems,
-            shippingAddress,
-            paymentMethod,
-            totalPrice,
-        });
+        console.log('--- Order Creation Request ---');
+        console.log('Shipping Address Received:', shippingAddress);
+        try {
+            const order = new Order({
+                user: req.user._id,
+                orderItems,
+                shippingAddress,
+                paymentMethod,
+                totalPrice,
+            });
 
-        const createdOrder = await order.save();
-        res.status(201).json(createdOrder);
+            const createdOrder = await order.save();
+
+            if (req.user) {
+                try {
+                    req.user.address = {
+                        address: shippingAddress.address,
+                        city: shippingAddress.city,
+                        postalCode: shippingAddress.postalCode,
+                        country: shippingAddress.country,
+                        phone: shippingAddress.phone
+                    };
+                    req.user.markModified('address'); // Explicitly mark as modified
+                    const updatedUser = await req.user.save();
+                    console.log('Updated User Address:', updatedUser.address);
+                } catch (err) {
+                    console.error("Failed to update user address:", err);
+                    // Do not fail the order creation if user update fails
+                }
+            }
+
+            res.status(201).json(createdOrder);
+        } catch (error) {
+            console.error("Order creation failed:", error);
+            res.status(400).json({ message: error.message });
+        }
     }
 });
 

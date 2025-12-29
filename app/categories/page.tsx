@@ -61,35 +61,52 @@ export default function CategoriesPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {filteredProducts.map((product) => (
-          <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Card key={product.id} className="overflow-hidden border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 rounded-lg group">
             <Link href={`/products/${product.id}`}>
-              <img
-                src={product.image || "/placeholder.svg"}
-                alt={product.name}
-                className="h-48 w-full cursor-pointer object-cover transition-transform hover:scale-105"
-              />
+              <div className="relative aspect-[3/4] overflow-hidden bg-white p-6 group-hover:bg-gray-50 transition-colors">
+                <img
+                  src={product.image || "/placeholder.svg"}
+                  alt={product.name}
+                  className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
+                />
+
+                {/* Overlay on hover for quick click */}
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
             </Link>
-            <CardContent className="p-4">
-              <div className="mb-1 text-xs font-medium text-muted-foreground uppercase">{product.category}</div>
+
+            <CardContent className="p-5">
+              <div className="mb-2 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{product.category}</div>
               <Link href={`/products/${product.id}`}>
-                <h3 className="mb-2 cursor-pointer font-semibold hover:text-primary line-clamp-1">{product.name}</h3>
+                <h3 className="mb-2 cursor-pointer font-bold text-lg hover:text-primary transition-colors line-clamp-1">{product.name}</h3>
               </Link>
-              <p className="mb-3 text-sm text-muted-foreground line-clamp-2">{product.description}</p>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-2xl font-bold">₹{product.price.toFixed(2)}</span>
+              <p className="mb-4 text-sm text-muted-foreground line-clamp-2 font-light leading-relaxed">{product.description}</p>
+
+              <div className="flex items-center justify-between mb-4 pt-2 border-t border-dashed border-border">
+                <div className="flex flex-col">
+                  <span className="text-xs text-muted-foreground line-through opacity-60">₹{(product.price * 1.2).toFixed(2)}</span>
+                  <span className="text-xl font-bold text-primary">₹{product.price.toFixed(2)}</span>
+                </div>
                 {user?.role === "admin" && (
-                  <span className="text-xs text-muted-foreground">{product.stock} in stock</span>
+                  <span className={`text-xs px-2 py-1 rounded-full ${product.stock > 10 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {product.stock > 0 ? `${product.stock} in stock` : 'Out of Stock'}
+                  </span>
                 )}
               </div>
-              <Button className="w-full" onClick={() => handleAddToCart(product)} disabled={addedToCart === product.id}>
+
+              <Button
+                className={`w-full font-semibold shadow-md ${addedToCart === product.id ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                onClick={() => handleAddToCart(product)}
+                disabled={addedToCart === product.id || product.stock === 0}
+              >
                 {addedToCart === product.id ? (
-                  "Added!"
+                  <>Added to Cart</>
                 ) : (
                   <>
                     <ShoppingCart className="mr-2 h-4 w-4" />
-                    {product.sizes && product.sizes.length > 0 ? "Select Size" : "Add to Cart"}
+                    {product.stock === 0 ? "Out of Stock" : product.sizes && product.sizes.length > 0 ? "Select Size" : "Add to Cart"}
                   </>
                 )}
               </Button>

@@ -24,48 +24,57 @@ export default function HomePage() {
       </section>
 
       {/* Curated Collections / Categories */}
-      <section className="py-12 bg-muted/30">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center tracking-tight">Curated Collections</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-primary">Curated Collections</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-light">
+              Explore our diverse range of premium products designed for the corporate environment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category, index) => {
-              // Cycle through 3 distinct gradients
+              // Professional Gradients
               const gradients = [
-                "from-pink-100 to-pink-50",
-                "from-blue-100 to-blue-50",
-                "from-green-100 to-green-50",
-                "from-purple-100 to-purple-50",
-                "from-orange-100 to-orange-50",
-                "from-teal-100 to-teal-50"
+                "from-slate-50 to-white border-slate-200",
+                "from-gray-50 to-white border-gray-200",
+                "from-zinc-50 to-white border-zinc-200",
+                "from-stone-50 to-white border-stone-200",
+                "from-neutral-50 to-white border-neutral-200",
+                "from-slate-50 to-gray-50 border-slate-200"
               ]
-              const currentGradient = gradients[index % gradients.length]
+              const currentStyle = gradients[index % gradients.length]
 
               return (
                 <Link key={category.id} href={`/categories?category=${category.name}`} className="group cursor-pointer">
-                  <div className="relative h-64 overflow-hidden rounded-2xl mb-4 shadow-lg bg-white/40 backdrop-blur-md">
-                    {/* Gradient Background */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${currentGradient} transition-transform duration-500 group-hover:scale-110`} />
+                  <div className={`relative h-80 overflow-hidden rounded-xl mb-4 border shadow-sm hover:shadow-xl transition-all duration-500 bg-gradient-to-br ${currentStyle}`}>
 
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                      <div className="p-4 bg-white/80 rounded-full shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <ShoppingBag className="w-8 h-8 text-primary" />
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]"></div>
+
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-white/0 group-hover:bg-white/50 transition-colors duration-500">
+                      <div className="p-5 bg-white rounded-full shadow-lg mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 ring-1 ring-black/5">
+                        <ShoppingBag className="w-8 h-8 text-primary group-hover:text-white transition-colors" />
                       </div>
-                      <h3 className="text-2xl font-bold text-foreground/90 group-hover:text-primary transition-colors">{category.name}</h3>
-                      <p className="text-sm text-muted-foreground mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Browse Collection</p>
+                      <h3 className="text-2xl font-bold text-slate-800 group-hover:text-primary transition-colors tracking-tight">{category.name}</h3>
+                      <p className="text-sm text-slate-500 mt-4 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 font-medium tracking-wide uppercase">
+                        Browse Collection <ArrowRight className="inline-block w-4 h-4 ml-1" />
+                      </p>
                     </div>
                   </div>
                 </Link>
               )
             })}
             {categories.length === 0 && (
-              <div className="col-span-3 text-center text-muted-foreground">Loading collections...</div>
+              <div className="col-span-3 text-center text-muted-foreground py-12">Loading collections...</div>
             )}
           </div>
         </div>
       </section>
 
       {/* Featured Products - Now using Swiper/Carousel */}
-      <section>
+      <section className="bg-slate-50/50">
         <ProductCarousel products={featuredProducts} title="Featured Arrivals" />
       </section>
 
@@ -74,35 +83,37 @@ export default function HomePage() {
         <ProductCarousel products={featuredProducts.slice().reverse()} title="Best Sellers" />
       </section>
 
-      {/* Trust/Business Features Banner */}
-      <section className="rounded-2xl bg-primary text-primary-foreground p-12 overflow-hidden relative shadow-2xl">
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 mix-blend-overlay"></div>
-        <div className="relative z-10 grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div className="flex flex-col items-center md:items-start space-y-4">
-            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-              <ShieldCheckIcon className="w-7 h-7" />
+      {/* Trust/Business Features Banner - Full Width */}
+      <section className="w-full bg-primary text-primary-foreground py-24 relative overflow-hidden mt-12">
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 mix-blend-soft-light"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid md:grid-cols-3 gap-12 text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start space-y-6 group hover:translate-y-[-5px] transition-transform duration-300">
+              <div className="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner ring-1 ring-white/20 group-hover:bg-white/20 transition-colors">
+                <ShieldCheckIcon className="w-10 h-10 text-accent" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Premium Quality</h3>
+                <p className="text-primary-foreground/70 mt-3 text-lg font-light leading-relaxed">Certified authentic materials and superior craftsmanship guaranteed.</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold">Premium Quality</h3>
-              <p className="text-primary-foreground/80 mt-1">Certified materials and craftsmanship.</p>
+            <div className="flex flex-col items-center md:items-start space-y-6 group hover:translate-y-[-5px] transition-transform duration-300">
+              <div className="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner ring-1 ring-white/20 group-hover:bg-white/20 transition-colors">
+                <TruckIcon className="w-10 h-10 text-accent" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Fast Delivery</h3>
+                <p className="text-primary-foreground/70 mt-3 text-lg font-light leading-relaxed">Priority shipping logistics for all corporate and bulk orders.</p>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-4">
-            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-              <TruckIcon className="w-7 h-7" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold">Fast Delivery</h3>
-              <p className="text-primary-foreground/80 mt-1">Priority shipping for corporate orders.</p>
-            </div>
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-4">
-            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-              <HeadphonesIcon className="w-7 h-7" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold">Dedicated Support</h3>
-              <p className="text-primary-foreground/80 mt-1">24/7 service for your branding needs.</p>
+            <div className="flex flex-col items-center md:items-start space-y-6 group hover:translate-y-[-5px] transition-transform duration-300">
+              <div className="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner ring-1 ring-white/20 group-hover:bg-white/20 transition-colors">
+                <HeadphonesIcon className="w-10 h-10 text-accent" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Dedicated Support</h3>
+                <p className="text-primary-foreground/70 mt-3 text-lg font-light leading-relaxed">24/7 concierge service for your custom branding needs.</p>
+              </div>
             </div>
           </div>
         </div>

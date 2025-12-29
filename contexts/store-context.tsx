@@ -35,6 +35,9 @@ export interface DeliveryDetails {
   name: string
   phone: string
   address: string
+  city: string
+  postalCode: string
+  country: string
   deliveryOption: "home" | "pickup"
   paymentMethod: "credit" | "debit" | "cod"
 }
@@ -231,6 +234,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
               name: order.shippingAddress?.name || order.user?.name || "Unknown User",
               phone: order.shippingAddress?.phone || "Not provided",
               address: order.shippingAddress?.address || "",
+              city: order.shippingAddress?.city || "",
+              postalCode: order.shippingAddress?.postalCode || "",
+              country: order.shippingAddress?.country || "",
               deliveryOption: "home", // Default
               paymentMethod: order.paymentMethod as any
             },
@@ -365,9 +371,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           name: deliveryDetails.name,
           phone: deliveryDetails.phone,
           address: deliveryDetails.address,
-          city: "Unknown", // Frontend doesn't convert address string to parts yet
-          postalCode: "00000",
-          country: "Unknown"
+          city: deliveryDetails.city,
+          postalCode: deliveryDetails.postalCode,
+          country: deliveryDetails.country
         },
         paymentMethod: deliveryDetails.paymentMethod,
         totalPrice: total

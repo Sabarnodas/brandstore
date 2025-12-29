@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
+// ... (imports remain)
+
 const heroSlides = [
   {
     id: 1,
@@ -13,7 +15,7 @@ const heroSlides = [
     description: "Premium merchandise for the modern professional. Showcase your brand with style.",
     cta: "Shop Collections",
     link: "/categories?category=Clothing",
-    bgClass: "bg-gradient-to-r from-primary to-primary/80",
+    bgClass: "bg-gradient-to-br from-primary via-slate-900 to-black",
     image: "/cotton-tshirt.png"
   },
   {
@@ -22,7 +24,7 @@ const heroSlides = [
     description: "Refined tools for your daily workflow. Enhance productivity with elegance.",
     cta: "Explore Accessories",
     link: "/categories?category=Accessories",
-    bgClass: "bg-gradient-to-r from-slate-800 to-slate-900",
+    bgClass: "bg-gradient-to-br from-slate-900 via-slate-800 to-primary/80",
     image: "/black-leather-jacket.png"
   },
   {
@@ -31,7 +33,7 @@ const heroSlides = [
     description: "The perfect way to say thank you to your team. Memorable gifts for every occasion.",
     cta: "View Gifts",
     link: "/categories?category=Stationary",
-    bgClass: "bg-gradient-to-r from-blue-900 to-indigo-900",
+    bgClass: "bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-800",
     image: "/iem-giftware.jpeg"
   },
 ]
@@ -60,28 +62,34 @@ export function HeroCarousel() {
   }, [api])
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto mb-12 overflow-hidden rounded-2xl shadow-2xl">
+    <div className="relative w-full max-w-[1400px] mx-auto mb-16 overflow-hidden md:rounded-3xl shadow-2xl border border-white/10 ring-1 ring-black/5">
       <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
         <CarouselContent>
           {heroSlides.map((slide) => (
             <CarouselItem key={slide.id}>
-              <div className={`relative min-h-[500px] grid md:grid-cols-2 ${slide.bgClass} text-white`}>
+              <div className={`relative min-h-[550px] grid md:grid-cols-2 ${slide.bgClass} text-white overflow-hidden`}>
 
-                {/* Abstract Pattern Overlay */}
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
+                {/* Subtle Grain/Pattern Overlay */}
+                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
+
+                {/* Abstract Geometric Overlay */}
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
 
                 {/* Left Content */}
-                <div className="relative z-10 flex flex-col justify-center p-12 md:pl-20 space-y-6 order-2 md:order-1">
-                  <div className="animate-in fade-in slide-in-from-left-8 duration-700 delay-100">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance drop-shadow-md leading-tight">
+                <div className="relative z-10 flex flex-col justify-center p-8 md:pl-24 space-y-8 order-2 md:order-1 items-center text-center md:items-start md:text-left">
+                  <div className="animate-in fade-in slide-in-from-left-8 duration-700 delay-100 max-w-2xl">
+                    <div className="inline-block px-3 py-1 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+                      <span className="text-xs font-semibold tracking-widest uppercase text-white/80">Premium Collection 2025</span>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance drop-shadow-lg leading-[1.1]">
                       {slide.title}
                     </h1>
-                    <p className="mt-4 text-lg md:text-xl text-white/90 font-light max-w-lg leading-relaxed">
+                    <p className="mt-6 text-lg md:text-xl text-white/80 font-light max-w-lg leading-relaxed mx-auto md:mx-0">
                       {slide.description}
                     </p>
-                    <div className="pt-8">
+                    <div className="pt-8 md:pt-10 w-full flex justify-center md:justify-start gap-4">
                       <Link href={slide.link}>
-                        <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95">
+                        <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-7 text-base rounded-md shadow-xl transition-all hover:translate-y-[-2px]">
                           {slide.cta} <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
                       </Link>
@@ -90,14 +98,14 @@ export function HeroCarousel() {
                 </div>
 
                 {/* Right Image */}
-                <div className="relative z-10 flex items-center justify-center p-8 md:p-12 order-1 md:order-2">
-                  <div className="relative w-full h-full max-h-[400px] flex items-center justify-center animate-in fade-in zoom-in-95 duration-1000">
-                    {/* Background Glow */}
-                    <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full transform scale-75 opacity-50"></div>
+                <div className="relative z-10 flex items-center justify-center h-full order-1 md:order-2 p-8 md:p-12">
+                  <div className="relative w-full h-full flex items-center justify-center animate-in fade-in zoom-in-95 duration-1000">
+                    {/* Professional Glow */}
+                    <div className="absolute inset-0 bg-white/10 blur-[100px] rounded-full transform scale-75 opacity-30"></div>
                     <img
                       src={slide.image}
                       alt={slide.title}
-                      className="relative max-h-full max-w-full object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-500 rounded-xl"
+                      className="relative w-full h-full max-h-[450px] object-contain drop-shadow-2xl"
                     />
                   </div>
                 </div>
@@ -107,17 +115,17 @@ export function HeroCarousel() {
           ))}
         </CarouselContent>
         <div className="hidden md:block">
-          <CarouselPrevious className="left-4 bg-white/10 hover:bg-white/30 border-none text-white backdrop-blur-sm" />
-          <CarouselNext className="right-4 bg-white/10 hover:bg-white/30 border-none text-white backdrop-blur-sm" />
+          <CarouselPrevious className="left-8 h-12 w-12 bg-white/5 hover:bg-white/20 border-white/10 text-white backdrop-blur-md transition-all hover:scale-110" />
+          <CarouselNext className="right-8 h-12 w-12 bg-white/5 hover:bg-white/20 border-white/10 text-white backdrop-blur-md transition-all hover:scale-110" />
         </div>
       </Carousel>
 
-      {/* Dots Indicator */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
+      {/* Modern Dots Indicator */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
         {heroSlides.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 shadow-sm ${index === current ? "bg-white scale-125 w-8" : "bg-white/40 hover:bg-white/60"
+            className={`h-1.5 rounded-full transition-all duration-500 ${index === current ? "bg-white w-8 delay-100" : "bg-white/30 w-1.5 hover:bg-white/50"
               }`}
             onClick={() => api?.scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}

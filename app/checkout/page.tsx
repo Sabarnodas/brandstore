@@ -19,6 +19,9 @@ export default function CheckoutPage() {
     name: "",
     phone: "",
     address: "",
+    city: "",
+    postalCode: "",
+    country: "",
     deliveryOption: "home" as "home" | "pickup",
     paymentMethod: "credit" as "credit" | "debit" | "cod",
   })
@@ -61,6 +64,9 @@ export default function CheckoutPage() {
         name: formData.name,
         phone: formData.phone,
         address: formData.address,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        country: formData.country,
         deliveryOption: formData.deliveryOption,
         paymentMethod: formData.paymentMethod,
       })
@@ -121,8 +127,43 @@ export default function CheckoutPage() {
                   <Input
                     id="address"
                     name="address"
-                    placeholder="123 Main St, Apt 4B, New York, NY 10001"
+                    placeholder="123 Main St, Apt 4B"
                     value={formData.address}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City *</Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      placeholder="New York"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="postalCode">Postal Code *</Label>
+                    <Input
+                      id="postalCode"
+                      name="postalCode"
+                      placeholder="10001"
+                      value={formData.postalCode}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="country">Country *</Label>
+                  <Input
+                    id="country"
+                    name="country"
+                    placeholder="United States"
+                    value={formData.country}
                     onChange={handleInputChange}
                     required
                   />
