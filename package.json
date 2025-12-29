@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
+    "seed": "cd backend && npm run seed",
     "start": "next start"
   },
   "dependencies": {

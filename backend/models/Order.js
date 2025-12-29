@@ -8,6 +8,7 @@ const orderSchema = mongoose.Schema({
         image: { type: String, required: true },
         price: { type: Number, required: true },
         product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+        productId: { type: String }, // Store custom id string (e.g. "1")
         size: { type: String }
     }],
     shippingAddress: {
@@ -30,7 +31,11 @@ const orderSchema = mongoose.Schema({
     paidAt: { type: Date },
     isDelivered: { type: Boolean, required: true, default: false },
     deliveredAt: { type: Date },
-    status: { type: String, default: 'pending' }
+    status: {
+        type: String,
+        enum: ["Placed", "In Process", "Delivered", "Cancelled"],
+        default: "Placed"
+    }
 }, {
     timestamps: true,
 });

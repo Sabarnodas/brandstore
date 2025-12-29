@@ -58,9 +58,9 @@ router.get('/', protect, async (req, res) => {
     try {
         let orders;
         if (req.user.role === 'admin') {
-            orders = await Order.find({}).populate('user', 'id name email');
+            orders = await Order.find({}).populate('user', 'id name email').sort({ createdAt: -1 });
         } else {
-            orders = await Order.find({ user: req.user._id }).populate('user', 'id name email');
+            orders = await Order.find({ user: req.user._id }).populate('user', 'id name email').sort({ createdAt: -1 });
         }
         res.json(orders);
     } catch (error) {
@@ -82,6 +82,33 @@ router.get('/:id', protect, async (req, res) => {
     }
 });
 
+router.put('/:id/status', protect, async (req, res) => {
+    try {
+        const { status } = req.body;
+        const order = await Order.findById(req.params.id);
+
+        if (order) {
+            if (req.user.role !== 'admin') {
+                return res.status(401).json({ message: 'Not authorized - Admin only' });
+            }
+
+            order.status = status;
+            if (status === 'Delivered') {
+                order.isDelivered = true;
+                order.deliveredAt = Date.now();
+            }
+
+            const updatedOrder = await order.save();
+            res.json(updatedOrder);
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+    } catch (error) {
+        console.error("Error updating order status:", error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 router.put('/:id/cancel', protect, async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);
@@ -92,7 +119,7 @@ router.put('/:id/cancel', protect, async (req, res) => {
                 return res.status(401).json({ message: 'Not authorized to cancel this order' });
             }
 
-            if (order.isDelivered) {
+            if (order.status === 'Delivered') {
                 return res.status(400).json({ message: 'Cannot cancel delivered order' });
             }
 

@@ -10,11 +10,17 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-        const parsedToken = JSON.parse(token); // The current implementation stores the whole token object as string
-        if (parsedToken.token) {
-            config.headers.Authorization = `Bearer ${parsedToken.token}`;
+    if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            try {
+                const parsedToken = JSON.parse(token);
+                if (parsedToken.token) {
+                    config.headers.Authorization = `Bearer ${parsedToken.token}`;
+                }
+            } catch (error) {
+                // Ignore parsing errors
+            }
         }
     }
     return config;

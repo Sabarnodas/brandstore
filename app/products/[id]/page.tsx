@@ -109,8 +109,18 @@ export default function ProductDetailPage() {
         {/* Product Info Section */}
         <div className="space-y-8">
           <div>
-            <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary uppercase tracking-wider">
-              {product.category}
+            <div className="mb-3 flex items-center gap-3">
+              <div className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary uppercase tracking-wider">
+                {product.category}
+              </div>
+              {product.rating !== undefined && (
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">
+                    ★ {product.rating.toFixed(1)}
+                  </span>
+                  <span className="text-sm font-medium text-muted-foreground">({product.numReviews} reviews)</span>
+                </div>
+              )}
             </div>
             <h1 className="mb-4 text-4xl font-bold text-foreground tracking-tight">{product.name}</h1>
             <p className="text-3xl font-bold text-primary">₹{product.price.toFixed(2)}</p>
@@ -185,6 +195,36 @@ export default function ProductDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Reviews Section */}
+      <div className="mt-16 space-y-8 border-t pt-16">
+        <h2 className="text-2xl font-bold">Customer Reviews</h2>
+        {(!product.reviews || product.reviews.length === 0) ? (
+          <p className="text-muted-foreground">No reviews yet for this product.</p>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2">
+            {product.reviews.map((review, idx) => (
+              <Card key={idx}>
+                <CardContent className="pt-6">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-bold">{review.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-sm font-bold text-yellow-600">Rating: {review.rating}/5</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed italic">
+                    "{review.comment}"
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
+

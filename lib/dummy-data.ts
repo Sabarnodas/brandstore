@@ -1,4 +1,13 @@
-// Dummy product data
+export interface Review {
+  _id: string
+  name: string
+  rating: number
+  comment: string
+  userId: string
+  productId: string
+  createdAt: string
+}
+
 export interface Product {
   id: string
   _id?: string // MongoDB ID
@@ -11,6 +20,9 @@ export interface Product {
   stock: number
   manufacturer: string
   sizes?: string[] // Optional sizes for clothing items
+  reviews?: Review[]
+  rating?: number
+  numReviews?: number
 }
 
 export interface Order {

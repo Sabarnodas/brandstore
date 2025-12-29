@@ -1,6 +1,68 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const { protect } = require('../middleware/authMiddleware');
+
+// @desc    Create new review
+// @route   POST /api/products/:id/reviews
+// @access  Private
+router.post('/:id/reviews', protect, async (req, res) => {
+    const { rating, comment } = req.body;
+    const productId = req.params.id;
+
+    console.log(`Review submission attempt for product ID: ${productId} by user: ${req.user?._id}`);
+
+    try {
+        // Try finding by custom 'id' string first (e.g., "1", "2")
+        let product = await Product.findOne({ id: productId });
+
+        // If not found, try finding by MongoDB _id (e.g., "6948dd...")
+        if (!product) {
+            try {
+                // Only try findById if it looks like a valid ObjectId (24 hex characters)
+                if (productId.match(/^[0-9a-fA-F]{24}$/)) {
+                    product = await Product.findById(productId);
+                }
+            } catch (e) {
+                console.log(`Mongoose error searching for _id: ${productId} - ${e.message}`);
+            }
+        }
+
+        if (product) {
+            console.log(`Product found: ${product.name} (DB _id: ${product._id})`);
+            const alreadyReviewed = product.reviews.find(
+                (r) => r.userId.toString() === req.user._id.toString()
+            );
+
+            if (alreadyReviewed) {
+                return res.status(400).json({ message: 'Product already reviewed' });
+            }
+
+            const review = {
+                name: req.user.name,
+                rating: Number(rating),
+                comment,
+                userId: req.user._id,
+                productId: product._id,
+            };
+
+            product.reviews.push(review);
+            product.numReviews = product.reviews.length;
+            product.rating =
+                product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+                product.reviews.length;
+
+            await product.save();
+            res.status(201).json({ message: 'Review added' });
+        } else {
+            console.log(`Product NOT found in DB for ID: ${productId}`);
+            res.status(404).json({ message: `Product not found with ID: ${productId}. Please note that orders placed before a database reset may point to deleted product IDs.` });
+        }
+    } catch (error) {
+        console.error('Error in submit review:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
 
 const dummyProducts = [
     {

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { products as initialProducts, type Product } from "@/lib/dummy-data"
-import api from "@/lib/api"
+import api from "../lib/api"
 
 
 interface CartItem extends Product {
@@ -48,9 +48,10 @@ export interface Order {
   items: OrderItem[]
   total: number
   deliveryDetails: DeliveryDetails
-  orderStatus: "Placed" | "Processing" | "Shipped" | "Delivered" | "Cancelled"
+  orderStatus: "Placed" | "In Process" | "Shipped" | "Delivered" | "Cancelled"
   deliveryStatus: "In Process" | "Delivered" | "Rejected" | "Not Received"
   createdAt: string
+  deliveredAt?: string
 }
 
 export interface DeliveryLog {
@@ -148,6 +149,8 @@ interface StoreContextType {
   fetchVendorInvoices: () => Promise<void>
   payVendorInvoice: (invoiceId: string) => Promise<void>
 
+  fetchOrders: () => Promise<void>
+  submitReview: (productId: string, rating: number, comment: string) => Promise<void>
   isLoading: boolean
 }
 
@@ -213,55 +216,59 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      if (user) {
-        try {
-          const { data } = await api.get('/orders')
-          // Map backend order to frontend Order interface
-          const mappedOrders: Order[] = data.map((order: any) => ({
-            id: order._id,
-            userId: order.user?._id || "unknown",
-            items: order.orderItems.map((item: any) => ({
-              productId: item.product,
-              productName: item.name,
-              quantity: item.quantity,
-              price: item.price,
-              selectedSize: item.size
-            })),
-            total: order.totalPrice,
-            deliveryDetails: {
-              name: order.shippingAddress?.name || order.user?.name || "Unknown User",
-              phone: order.shippingAddress?.phone || "Not provided",
-              address: order.shippingAddress?.address || "",
-              city: order.shippingAddress?.city || "",
-              postalCode: order.shippingAddress?.postalCode || "",
-              country: order.shippingAddress?.country || "",
-              deliveryOption: "home", // Default
-              paymentMethod: order.paymentMethod as any
-            },
-            orderStatus:
-              order.status === 'Cancelled' ? 'Cancelled' :
-                order.status === 'pending' ? 'Placed' :
-                  order.status === 'Processing' ? 'Processing' :
-                    order.status === 'Shipped' ? 'Shipped' :
-                      order.status === 'Delivered' ? 'Delivered' :
-                        'Processing', // Fallback
-            deliveryStatus: order.isDelivered ? 'Delivered' : 'In Process',
-            createdAt: order.createdAt
-          }))
-          setOrders(mappedOrders)
-        } catch (e: any) {
-          console.error("Failed to fetch orders", e)
-          if (e.response && e.response.status === 401) {
-            logout()
-          }
-        }
-      } else {
-        setOrders([])
-      }
-    }
 
+  const fetchOrders = async () => {
+    if (user) {
+      try {
+        const { data } = await api.get('/orders')
+        // Map backend order to frontend Order interface
+        const mappedOrders: Order[] = data.map((order: any) => ({
+          id: order._id,
+          userId: order.user?._id || "unknown",
+          items: order.orderItems.map((item: any) => ({
+            productId: item.productId || item.product,
+            productName: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            selectedSize: item.size
+          })),
+          total: order.totalPrice,
+          deliveryDetails: {
+            name: order.shippingAddress?.name || order.user?.name || "Unknown User",
+            phone: order.shippingAddress?.phone || "Not provided",
+            address: order.shippingAddress?.address || "",
+            city: order.shippingAddress?.city || "",
+            postalCode: order.shippingAddress?.postalCode || "",
+            country: order.shippingAddress?.country || "",
+            deliveryOption: "home", // Default
+            paymentMethod: order.paymentMethod as any
+          },
+          orderStatus:
+            order.status === 'Cancelled' ? 'Cancelled' :
+              order.status === 'Placed' ? 'Placed' :
+                order.status === 'In Process' ? 'In Process' :
+                  order.status === 'Shipped' ? 'Shipped' :
+                    order.status === 'Delivered' ? 'Delivered' :
+                      'Placed', // Default to Placed
+          deliveryStatus: order.status === 'Delivered' ? 'Delivered' : (order.status === 'Cancelled' ? 'Rejected' : 'In Process'),
+          createdAt: order.createdAt,
+          deliveredAt: order.deliveredAt
+        }))
+        // Sort by createdAt desc
+        mappedOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        setOrders(mappedOrders)
+      } catch (e: any) {
+        console.error("Failed to fetch orders", e)
+        if (e.response && e.response.status === 401) {
+          logout()
+        }
+      }
+    } else {
+      setOrders([])
+    }
+  }
+
+  useEffect(() => {
     fetchOrders()
   }, [user])
 
@@ -359,6 +366,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       image: item.image,
       price: item.price,
       product: item._id || item.id,
+      productId: item.id, // custom string ID (e.g. "1")
       size: item.selectedSize
     }))
 
@@ -464,55 +472,55 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     await updateProduct(productId, { stock: newStock })
   }
 
-  const updateOrderDeliveryStatus = (orderId: string, status: Order["deliveryStatus"], deliveryAgent?: string) => {
-    setOrders((prev) => {
-      const updatedOrders = prev.map((order) => {
-        if (order.id === orderId) {
-          const previousStatus = order.deliveryStatus
-          const newOrder = { ...order, deliveryStatus: status }
+  const updateOrderDeliveryStatus = async (orderId: string, status: Order["deliveryStatus"], deliveryAgent?: string) => {
+    try {
+      // Map frontend delivery status back to backend status
+      let backendStatus: string = status
+      if (status === "In Process") backendStatus = "In Process"
+      if (status === "Delivered") backendStatus = "Delivered"
+      if (status === "Rejected") backendStatus = "Cancelled"
+      if (status === "Not Received") backendStatus = "Cancelled"
 
-          if (status === "Delivered" && previousStatus !== "Delivered") {
-            setProducts((prevProducts) =>
-              prevProducts.map((product) => {
-                const orderItem = order.items.find((item) => item.productId === product.id)
-                if (orderItem) {
-                  return {
-                    ...product,
-                    stock: Math.max(0, product.stock - orderItem.quantity),
-                  }
+      const { data } = await api.put(`/orders/${orderId}/status`, { status: backendStatus })
+
+      // Update local state by refetching
+      await fetchOrders()
+
+      // If delivered, we still want to add delivery logs (optional but keep for compatibility)
+      if (status === "Delivered") {
+        const order = orders.find(o => o.id === orderId)
+        if (order) {
+          const newLogs: DeliveryLog[] = order.items.map((item) => ({
+            id: `LOG-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            orderId: order.id,
+            productName: item.productName,
+            quantity: item.quantity,
+            price: item.price,
+            deliveryAgent: deliveryAgent || "Not specified",
+            deliveredAt: new Date().toISOString(),
+          }))
+          setDeliveryLogs((prevLogs) => [...newLogs, ...prevLogs])
+
+          // Update stock locally if not already done by backend (ideally backend should handle this, 
+          // but we follow current logic)
+          setProducts((prevProducts) =>
+            prevProducts.map((product) => {
+              const orderItem = order.items.find((item) => item.productId === product.id)
+              if (orderItem) {
+                return {
+                  ...product,
+                  stock: Math.max(0, product.stock - orderItem.quantity),
                 }
-                return product
-              }),
-            )
-
-            const newLogs: DeliveryLog[] = order.items.map((item) => ({
-              id: `LOG-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-              orderId: order.id,
-              productName: item.productName,
-              quantity: item.quantity,
-              price: item.price,
-              deliveryAgent: deliveryAgent || "Not specified",
-              deliveredAt: new Date().toISOString(),
-            }))
-
-            setDeliveryLogs((prevLogs) => [...newLogs, ...prevLogs])
-
-            newOrder.orderStatus = "Delivered"
-          }
-
-          if (status === "Rejected") {
-            newOrder.orderStatus = "Cancelled"
-          } else if (status === "Not Received") {
-            newOrder.orderStatus = "Cancelled"
-          }
-
-          return newOrder
+              }
+              return product
+            }),
+          )
         }
-        return order
-      })
-
-      return updatedOrders
-    })
+      }
+    } catch (error) {
+      console.error("Failed to update order status", error)
+      throw error
+    }
   }
 
   const login = async (email: string, password: string): Promise<boolean> => {
@@ -725,6 +733,17 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const submitReview = async (productId: string, rating: number, comment: string) => {
+    try {
+      await api.post(`/products/${productId}/reviews`, { rating, comment })
+      const { data } = await api.get('/products')
+      setProducts(data)
+    } catch (error: any) {
+      console.error("Failed to submit review:", error)
+      throw new Error(error.response?.data?.message || "Failed to submit review")
+    }
+  }
+
   return (
     <StoreContext.Provider
       value={{
@@ -763,6 +782,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         vendorInvoices,
         fetchVendorInvoices,
         payVendorInvoice,
+        fetchOrders,
+        submitReview,
         isLoading
       }}
     >
