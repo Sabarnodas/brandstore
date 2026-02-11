@@ -10,29 +10,37 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 
 export default function RegisterPage() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState("")
+    const [success, setSuccess] = useState(false)
+    const [debugLink, setDebugLink] = useState("")
+
     const { register } = useStore()
-    const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError("")
 
-        if (password.length < 6) {
-            setError("Password must be at least 6 characters.")
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
+        if (!passwordRegex.test(password)) {
+            setError("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.")
             return
         }
 
         try {
-            await register(name, email, password)
-            router.push("/")
+            const response: any = await register(name, email, password)
+            if (response?.debugLink) {
+                setDebugLink(response.debugLink)
+                console.log("Debug Verification Link:", response.debugLink)
+            }
+            setSuccess(true)
         } catch (err: any) {
             setError(err.response?.data?.message || "Registration failed. Please try again.")
         }
@@ -43,67 +51,109 @@ export default function RegisterPage() {
             <div className="max-w-md mx-auto">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Create an Account</CardTitle>
-                        <CardDescription>Enter your details to create a new account</CardDescription>
+                        <CardTitle>{success ? "Registration Successful" : "Create an Account"}</CardTitle>
+                        <CardDescription>
+                            {success
+                                ? `We've sent a verification link to ${email}. Please check your inbox.`
+                                : "Enter your details to create a new account"}
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            {error && (
-                                <Alert variant="destructive">
-                                    <AlertCircle className="h-4 w-4" />
-                                    <AlertDescription>{error}</AlertDescription>
-                                </Alert>
-                            )}
+                        {error && (
+                            <Alert variant="destructive" className="mb-4">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
 
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Full Name</Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder="John Doe"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                />
+                        {!success ? (
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">Full Name</Label>
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        placeholder="John Doe"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        placeholder="you@example.com"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="password">Password</Label>
+                                    <div className="relative">
+                                        <Input
+                                            id="password"
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="••••••••"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                            className="pr-10"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <Button type="submit" className="w-full">
+                                    Register
+                                </Button>
+
+                                <div className="mt-4 text-center text-sm">
+                                    Already have an account?{" "}
+                                    <Link href="/login" className="underline hover:text-primary">
+                                        Login here
+                                    </Link>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className="space-y-6 text-center">
+                                <div className="flex justify-center">
+                                    <div className="bg-primary/10 p-3 rounded-full">
+                                        <AlertCircle className="h-6 w-6 text-primary" />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-sm font-medium">Verification link sent!</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        Please check your email and click the link to activate your account.
+                                    </p>
+                                </div>
+
+                                {debugLink && (
+                                    <div className="p-4 bg-muted rounded-lg text-left space-y-2">
+                                        <p className="text-xs font-bold uppercase text-muted-foreground tracking-wider">Debug: Verification Link</p>
+                                        <p className="text-xs break-all font-mono text-primary select-all cursor-pointer hover:underline" onClick={() => window.open(debugLink)}>
+                                            {debugLink}
+                                        </p>
+                                        <p className="text-[10px] text-muted-foreground italic">Click the link above to verify manually (Debug Mode).</p>
+                                    </div>
+                                )}
+
+                                <Button asChild variant="outline" className="w-full">
+                                    <Link href="/login">Back to Login</Link>
+                                </Button>
                             </div>
-
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                    pattern=".{6,}"
-                                    title="Password must be at least 6 characters"
-                                />
-                            </div>
-
-                            <Button type="submit" className="w-full">
-                                Register
-                            </Button>
-
-                            <div className="mt-4 text-center text-sm">
-                                Already have an account?{" "}
-                                <Link href="/login" className="underline hover:text-primary">
-                                    Login here
-                                </Link>
-                            </div>
-                        </form>
+                        )}
                     </CardContent>
                 </Card>
             </div>

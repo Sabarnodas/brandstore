@@ -26,7 +26,8 @@ const userSchema = mongoose.Schema({
         country: { type: String, required: true },
         phone: { type: String, required: true },
         isDefault: { type: Boolean, default: false }
-    }]
+    }],
+    isVerified: { type: Boolean, default: false },
 }, {
     timestamps: true,
 });

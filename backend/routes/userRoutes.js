@@ -71,7 +71,18 @@ router.put('/profile', protect, async (req, res) => {
     if (user) {
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+
+        // If changing password, require current password verification
         if (req.body.password) {
+            if (!req.body.currentPassword) {
+                return res.status(400).json({ message: 'Current password required to change password' });
+            }
+
+            const isMatch = await user.matchPassword(req.body.currentPassword);
+            if (!isMatch) {
+                return res.status(401).json({ message: 'Current password is incorrect' });
+            }
+
             user.password = req.body.password;
         }
 

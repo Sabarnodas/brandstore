@@ -23,7 +23,7 @@ export default function CheckoutPage() {
     postalCode: "",
     country: "",
     deliveryOption: "home" as "home" | "pickup",
-    paymentMethod: "credit" as "credit" | "debit" | "cod",
+    paymentMethod: "cod" as "razorpay" | "cashfree" | "cod",
   })
 
   const [selectedAddressMode, setSelectedAddressMode] = useState<string>("new")
@@ -296,26 +296,27 @@ export default function CheckoutPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Payment Method</CardTitle>
+                <CardDescription>Select your preferred payment method.</CardDescription>
               </CardHeader>
               <CardContent>
                 <RadioGroup
                   value={formData.paymentMethod}
                   onValueChange={(value) =>
-                    setFormData({ ...formData, paymentMethod: value as "credit" | "debit" | "cod" })
+                    setFormData({ ...formData, paymentMethod: value as "razorpay" | "cashfree" | "cod" })
                   }
                 >
                   <div className="flex items-center space-x-3 rounded-lg border p-4">
-                    <RadioGroupItem value="credit" id="credit" />
-                    <Label htmlFor="credit" className="flex flex-1 cursor-pointer items-center gap-2">
+                    <RadioGroupItem value="razorpay" id="razorpay" />
+                    <Label htmlFor="razorpay" className="flex flex-1 cursor-pointer items-center gap-2">
                       <CreditCard className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-semibold">Stripe</span>
+                      <span className="font-semibold">Razorpay</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-3 rounded-lg border p-4">
-                    <RadioGroupItem value="debit" id="debit" />
-                    <Label htmlFor="debit" className="flex flex-1 cursor-pointer items-center gap-2">
+                    <RadioGroupItem value="cashfree" id="cashfree" />
+                    <Label htmlFor="cashfree" className="flex flex-1 cursor-pointer items-center gap-2">
                       <CreditCard className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-semibold">Razorpay</span>
+                      <span className="font-semibold">Cashfree</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-3 rounded-lg border p-4">

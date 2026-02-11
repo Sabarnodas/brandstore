@@ -50,7 +50,7 @@ export interface DeliveryDetails {
   postalCode: string
   country: string
   deliveryOption: "home" | "pickup"
-  paymentMethod: "credit" | "debit" | "cod"
+  paymentMethod: "razorpay" | "cashfree" | "cod"
 }
 
 export interface Order {
@@ -167,7 +167,7 @@ interface StoreContextType {
   getCartTotal: () => number
   user: User | null
   login: (email: string, password: string) => Promise<boolean>
-  register: (name: string, email: string, password: string) => Promise<boolean>
+  register: (name: string, email: string, password: string) => Promise<any>
   logout: () => void
   isAdmin: boolean
   orders: Order[]
@@ -614,31 +614,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+  const register = async (name: string, email: string, password: string): Promise<any> => {
     try {
       const { data } = await api.post('/auth/register', {
         name,
         email: email.trim().toLowerCase(),
         password: password.trim()
       })
-
-      const newUser: User = {
-        id: data._id,
-        email: data.email,
-        name: data.name,
-        role: data.role as "admin" | "user",
-        addresses: []
-      }
-
-      const authToken: AuthToken = {
-        token: data.token,
-        user: newUser,
-        expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
-      }
-
-      localStorage.setItem("auth_token", JSON.stringify(authToken))
-      setUser(newUser)
-      return true
+      // We don't log in yet, we wait for OTP verification
+      return data
     } catch (error: any) {
       console.error("Registration failed", error)
       throw error

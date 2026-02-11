@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, admin } = require('../middleware/authMiddleware');
 
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
@@ -217,7 +217,7 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a product
 // @route   POST /api/products
 // @access  Private/Admin
-router.post('/', async (req, res) => {
+router.post('/', protect, admin, async (req, res) => {
     try {
         const { id, name, description, price, category, image, images, stock, manufacturer, sizes } = req.body;
 
@@ -245,7 +245,7 @@ router.post('/', async (req, res) => {
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, admin, async (req, res) => {
     try {
         const { name, description, price, category, image, images, stock, manufacturer, sizes } = req.body;
 
@@ -283,7 +283,7 @@ router.put('/:id', async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, admin, async (req, res) => {
     try {
         // Try finding by custom 'id' string first, then fallback to _id
         let product = await Product.findOne({ id: req.params.id });
