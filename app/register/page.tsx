@@ -20,7 +20,7 @@ export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState(false)
-    const [debugLink, setDebugLink] = useState("")
+
 
     const { register } = useStore()
 
@@ -36,10 +36,6 @@ export default function RegisterPage() {
 
         try {
             const response: any = await register(name, email, password)
-            if (response?.debugLink) {
-                setDebugLink(response.debugLink)
-                console.log("Debug Verification Link:", response.debugLink)
-            }
             setSuccess(true)
         } catch (err: any) {
             setError(err.response?.data?.message || "Registration failed. Please try again.")
@@ -139,15 +135,7 @@ export default function RegisterPage() {
                                     </p>
                                 </div>
 
-                                {debugLink && (
-                                    <div className="p-4 bg-muted rounded-lg text-left space-y-2">
-                                        <p className="text-xs font-bold uppercase text-muted-foreground tracking-wider">Debug: Verification Link</p>
-                                        <p className="text-xs break-all font-mono text-primary select-all cursor-pointer hover:underline" onClick={() => window.open(debugLink)}>
-                                            {debugLink}
-                                        </p>
-                                        <p className="text-[10px] text-muted-foreground italic">Click the link above to verify manually (Debug Mode).</p>
-                                    </div>
-                                )}
+
 
                                 <Button asChild variant="outline" className="w-full">
                                     <Link href="/login">Back to Login</Link>
