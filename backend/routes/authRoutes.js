@@ -5,6 +5,7 @@ const Token = require('../models/Token');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');
+const passport = require('passport');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -192,5 +193,26 @@ router.get('/:id/verify/:token', async (req, res) => {
         res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
+// @desc    Auth with Google
+// @route   GET /api/auth/google
+// @access  Public
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// @desc    Google Auth Callback
+// @route   GET /api/auth/google/callback
+// @access  Public
+router.get('/google/callback',
+    passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+    (req, res) => {
+        // Generate token
+        const token = generateToken(req.user._id);
+
+        // Redirect to frontend with token
+        // Use process.env.FRONTEND_URL for production, fallback to localhost for dev
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        res.redirect(`${frontendUrl}/login?token=${token}`);
+    }
+);
 
 module.exports = router;

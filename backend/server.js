@@ -7,6 +7,8 @@ const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+require('./config/passport'); // Google OAuth Strategy
 
 dotenv.config();
 

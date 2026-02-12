@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useStore } from "@/contexts/store-context"
 import { Button } from "@/components/ui/button"
@@ -22,6 +22,61 @@ export default function LoginPage() {
   const [error, setError] = useState("")
   const { login, user } = useStore()
   const router = useRouter()
+  const [googleLoading, setGoogleLoading] = useState(false)
+
+  // Handle Google OAuth Callback
+  useEffect(() => {
+    // Check for token in URL
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get("token")
+
+    if (token) {
+      setGoogleLoading(true)
+      const fetchGoogleUser = async () => {
+        try {
+          // We need to fetch the user profile to construct the AuthToken object expected by the store
+          // We can't use the 'api' instance directly easily if it relies on localStorage token which isn't set yet,
+          // but typical axios instances might intercept. Let's assume we need to pass the header manually or set it first.
+          // Actually, let's try setting it in localStorage temporarily to let api instance pick it up?
+          // Or just use fetch/axios directly.
+
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/users/profile`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+
+          if (!response.ok) throw new Error("Failed to fetch user profile")
+
+          const userData = await response.json()
+
+          const newUser = {
+            id: userData._id,
+            email: userData.email,
+            name: userData.name,
+            role: userData.role,
+            addresses: userData.addresses || []
+          }
+
+          const authData = {
+            token: token,
+            user: newUser,
+            expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
+          }
+
+          localStorage.setItem("auth_token", JSON.stringify(authData))
+
+          // Force reload to ensure StoreProvider picks up the new token
+          window.location.href = "/"
+        } catch (err) {
+          console.error("Google login error:", err)
+          setError("Google login failed. Please try again.")
+          setGoogleLoading(false)
+        }
+      }
+      fetchGoogleUser()
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -72,71 +127,78 @@ export default function LoginPage() {
             <CardDescription>Enter your credentials to access your account</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
-              <div className="space-y-2">
-                <Label>Account Type</Label>
-                <RadioGroup
-                  defaultValue="user"
-                  value={accountType}
-                  onValueChange={setAccountType}
-                  className="flex flex-row space-x-4"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="user" id="user" />
-                    <Label htmlFor="user" className="font-normal cursor-pointer">User</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="admin" id="admin" />
-                    <Label htmlFor="admin" className="font-normal cursor-pointer">Admin</Label>
-                  </div>
-                </RadioGroup>
+            {googleLoading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <span className="ml-2">Logging in with Google...</span>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="pr-10"
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    onClick={() => setShowPassword(!showPassword)}
+                <div className="space-y-2">
+                  <Label>Account Type</Label>
+                  <RadioGroup
+                    defaultValue="user"
+                    value={accountType}
+                    onValueChange={setAccountType}
+                    className="flex flex-row space-x-4"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="user" id="user" />
+                      <Label htmlFor="user" className="font-normal cursor-pointer">User</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="admin" id="admin" />
+                      <Label htmlFor="admin" className="font-normal cursor-pointer">Admin</Label>
+                    </div>
+                  </RadioGroup>
                 </div>
-              </div>
 
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-            </form>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="pr-10"
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </form>
+            )}
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link href="/register" className="underline hover:text-primary">
@@ -146,6 +208,6 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </div >
   )
 }
