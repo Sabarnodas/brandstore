@@ -142,7 +142,7 @@ router.post('/register', async (req, res) => {
                             <p>If you didn't request this, please ignore this email.</p>
                         </div>
                     `
-                }, { user: email, pass: password });
+                });
 
                 res.status(201).json({
                     message: 'Verification link sent to email. Please verify your account.',
